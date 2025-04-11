@@ -15,8 +15,21 @@ async function startBot() {
 
   const send = (jid, text) => sock.sendMessage(jid, { text });
   
+  // new
   sock.en.on("connection.update", (update) => {
     const { connection, lastDisconnect, qr } = update;
+
+    if(qr) {
+      console.log("Scan this QR code to login: ");
+      qrcode.generate(qr, { small: true });
+    }
+    if(connection === "open") {
+      console.log("Logged in as ", sock.user.id);
+    }
+    if(connection === "close") {
+      console.log("connection closed. REconnecting...");
+      startBot();
+    }
   });
   
   schedule.scheduleJob("0 9 * * *", async () => {
