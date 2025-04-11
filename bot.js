@@ -92,8 +92,18 @@ Type:
   // Optional: Set bot profile picture (run once)
   
   const setProfilePic = async (imagePath) => {
-    await sock.updateProfilePicture(sock.user.id, { url: 'https://wallpapers.com/images/hd/cool-neon-blue-profile-picture-u9y9ydo971k9mdcf.jpg'});
-    console.log("Bot DP updated!");
+    // wait unti sock is connected and user ID is available
+    const checkAndSet = setInterval(async () => {
+      if(sock.user?.id) {
+        clearInterval(checkAndSet);
+        try {
+          await sock.updateProfilePicture(sock.user.id, {url: imagePath});
+          console.log("Bot DP updated!");
+        } catch (err) {
+          console.log("Error updating DP: ", err.message);
+        }
+      }
+    }, 1000);
   };
   await setProfilePic('./bot-dp.jpg');
 }
