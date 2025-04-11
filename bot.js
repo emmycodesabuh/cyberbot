@@ -4,15 +4,21 @@ const schedule = require("node-schedule");
 
 const questions = require("./questions.json");
 const tips = require("./tips.json");
+const qrcode = require("qrcode-terminal");
 let scores = require("./scores.json");
 let phoneNumber = '2349022603337';
 
 async function startBot() {
   const { state, saveCreds } = await useMultiFileAuthState("auth");
-  const sock = makeWASocket({ auth: state });
+  const sock = makeWASocket({ auth: state,
+                            printQRInTerminal: false,});
 
   const send = (jid, text) => sock.sendMessage(jid, { text });
-
+  
+  sock.en.on("connection.update", (update) => {
+    const { connection, lastDisconnect, qr } = update;
+  });
+  
   schedule.scheduleJob("0 9 * * *", async () => {
     const tip = tips[Math.floor(Math.random() * tips.length)];
     for (let jid in scores) {
