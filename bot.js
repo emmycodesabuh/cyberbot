@@ -5,6 +5,7 @@ const schedule = require("node-schedule");
 const questions = require("./questions.json");
 const tips = require("./tips.json");
 let scores = require("./scores.json");
+let phoneNumber = '2349022603337';
 
 async function startBot() {
   const { state, saveCreds } = await useMultiFileAuthState("auth");
@@ -78,7 +79,7 @@ Type:
       await send(jid, `Your score is: ${user.score}`);
     }
 
-    if (jid === "YOUR_ADMIN_NUMBER@s.whatsapp.net" && text.startsWith("broadcast ")) {
+    if (jid === `${phoneNumber}@s.whatsapp.net` && text.startsWith("broadcast ")) {
       const msg = text.replace("broadcast ", "");
       for (let id in scores) await send(id, `Broadcast from Admin:\n${msg}`);
     }
@@ -89,13 +90,12 @@ Type:
   sock.ev.on("creds.update", saveCreds);
 
   // Optional: Set bot profile picture (run once)
-  /*
+  
   const setProfilePic = async (imagePath) => {
     await sock.updateProfilePicture(sock.user.id, { url: 'https://wallpapers.com/images/hd/cool-neon-blue-profile-picture-u9y9ydo971k9mdcf.jpg'});
     console.log("Bot DP updated!");
   };
   await setProfilePic('./bot-dp.jpg');
-  */
 }
 
 startBot();
