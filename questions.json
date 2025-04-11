@@ -1,0 +1,12 @@
+[
+  {
+    "question": "What is phishing?",
+    "options": ["Password cracking", "Email scamming", "Firewall breach", "Malware detection"],
+    "answer": "B"
+  },
+  {
+    "question": "What is 2FA?",
+    "options": ["Two-Factor Authentication", "Two-Firewall Access", "Fast Authentication", "None of the above"],
+    "answer": "A"
+  }
+]
